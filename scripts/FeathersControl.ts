@@ -13,7 +13,19 @@ import {
     const feathers: ParticleSystem = await Scene.root.findAll('Feathers')[0] as ParticleSystem;
     const rect: Mesh = await Scene.root.findAll('Rect')[0] as Mesh;
 
-    feathers.hidden = Reactive.val(true);
+    const visible: CameraVisibility = {
+        forBackCamera: Reactive.val(true),
+        forFrontCamera: Reactive.val(true),
+        forUnspecifiedCamera: Reactive.val(true)
+    };
+
+    const invisible: CameraVisibility = {
+        forBackCamera: Reactive.val(false),
+        forFrontCamera: Reactive.val(false),
+        forUnspecifiedCamera: Reactive.val(false)
+    };
+
+    feathers.cameraVisibility = visible;
 
     function* MyRoutine(): IterableIterator<Wait> {
         feathers.hidden = Reactive.val(false);
