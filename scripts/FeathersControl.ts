@@ -3,22 +3,31 @@ import Scene from 'Scene';
 import Reactive from 'Reactive';
 import Instruction from 'Instruction';
 
+import {
+    Wait,
+    WaitForMilliseconds,
+    StartCoroutine
+} from './Coroutine'
+
 (async function (): Promise<void> {
-    const feathers: ParticleSystem = await Scene.root.findFirst('Feathers') as ParticleSystem;
+    const feathers: ParticleSystem = await Scene.root.findAll('Feathers')[0] as ParticleSystem;
+    const rect: Mesh = await Scene.root.findAll('Rect')[0] as Mesh;
 
-    const touchSub: Subscription = TouchGestures.onTap(cover).subscribe((event: TapGesture): void => {
-        Instruction.bind(true, 'touch_hold');
+    feathers.hidden = Reactive.val(true);
 
-        MtlChange();
+    function* MyRoutine(): IterableIterator<Wait> {
+        feathers.hidden = Reactive.val(false);
 
-        cover.getMaterial().then((myMtl: MaterialBase): void => {
-            myMtl.opacity = Reactive.val(0.0);
-        });
+        yield new WaitForMilliseconds(5700);
 
-        touchSub.unsubscribe();
+        feathers.hidden = Reactive.val(true);
+    }
 
-        const longPressSub: Subscription = TouchGestures.onLongPress(rect).subscribe((event: LongPressGesture): void => {
-            MtlChange();
-        });
+    const touchSub: Subscription = TouchGestures.onTap(rect).subscribe((event: TapGesture): void => {
+        //Instruction.bind(true, 'touch');
+
+        if(feathers.hidden == Reactive.val(true)) {
+            StartCoroutine(MyRoutine);
+        }
     });
 })();
