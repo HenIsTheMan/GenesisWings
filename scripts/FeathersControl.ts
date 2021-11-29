@@ -13,6 +13,8 @@ import {
     const feathers: ParticleSystem = await Scene.root.findFirst('Feathers') as ParticleSystem;
     const rect: SceneObjectBase = await Scene.root.findFirst('Rect') as SceneObjectBase;
 
+    feathers.hidden = Reactive.val(true);
+
     function* MyRoutine(): IterableIterator<Wait> {
         feathers.hidden = Reactive.val(false);
 
