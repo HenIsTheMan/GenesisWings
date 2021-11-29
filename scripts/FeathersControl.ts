@@ -10,22 +10,8 @@ import {
 } from './Coroutine'
 
 (async function (): Promise<void> {
-    const feathers: ParticleSystem = await Scene.root.findAll('Feathers')[0] as ParticleSystem;
-    const rect: Mesh = await Scene.root.findAll('Rect')[0] as Mesh;
-
-    const visible: CameraVisibility = {
-        forBackCamera: Reactive.val(true),
-        forFrontCamera: Reactive.val(true),
-        forUnspecifiedCamera: Reactive.val(true)
-    };
-
-    const invisible: CameraVisibility = {
-        forBackCamera: Reactive.val(false),
-        forFrontCamera: Reactive.val(false),
-        forUnspecifiedCamera: Reactive.val(false)
-    };
-
-    feathers.cameraVisibility = visible;
+    const feathers: ParticleSystem = await Scene.root.findFirst('Feathers') as ParticleSystem;
+    const rect: SceneObjectBase = await Scene.root.findFirst('Rect') as SceneObjectBase;
 
     function* MyRoutine(): IterableIterator<Wait> {
         feathers.hidden = Reactive.val(false);
@@ -38,7 +24,7 @@ import {
     const touchSub: Subscription = TouchGestures.onTap(rect).subscribe((event: TapGesture): void => {
         //Instruction.bind(true, 'touch');
 
-        if(feathers.hidden == Reactive.val(true)) {
+        if(feathers.hidden.pinLastValue) {
             StartCoroutine(MyRoutine);
         }
     });
