@@ -1,7 +1,6 @@
 import TouchGestures from 'TouchGestures';
 import Scene from 'Scene';
 import Reactive from 'Reactive';
-import Instruction from 'Instruction';
 
 import {
     Wait,
@@ -9,7 +8,7 @@ import {
     StartCoroutine
 } from './Coroutine'
 
-(async function (): Promise<void> {
+(async function(): Promise<void> {
     const feathers: ParticleSystem = await Scene.root.findFirst('Feathers') as ParticleSystem;
     const rect: SceneObjectBase = await Scene.root.findFirst('Rect') as SceneObjectBase;
 
@@ -24,8 +23,6 @@ import {
     }
 
     const touchSub: Subscription = TouchGestures.onTap(rect).subscribe((event: TapGesture): void => {
-        //Instruction.bind(true, 'touch');
-
         if(feathers.hidden.pinLastValue) {
             StartCoroutine(MyRoutine);
         }
