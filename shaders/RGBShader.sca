@@ -1,29 +1,13 @@
+#import <color_spaces>
+
 namespace {
-    vec3 HSVToRGB(float H, float S, float V) {
-		float P, Q, T, fract;
+	float trunc(float a) {
+		return a > 0.0 ? floor(a) : ceil(a);
+	}
 
-		(H == 360.0) ? (H = 0.0) : (H /= 60.0);
-		fract = H - floor(H);
-		P = V * (1.0 - S);
-		Q = V * (1.0 - S * fract);
-		T = V * (1.0 - S * (1.0 - fract));
-
-		if(0.0 <= H && H < 1.0) {
-			return vec3(V, T, P);
-		} else if(1.0 <= H && H < 2.0) {
-			return vec3(Q, V, P);
-		} else if(2.0 <= H && H < 3.0) {
-			return vec3(P, V, T);
-		} else if(3.0 <= H && H < 4.0) {
-			return vec3(P, Q, V);
-		} else if(4.0 <= H && H < 5.0) {
-			return vec3(T, P, V);
-		} else if(5.0 <= H && H < 6.0) {
-			return vec3(V, P, Q);
-		} else {
-			return vec3(0.0, 0.0, 0.0);
-		}
-    }
+	float fmod(float a, float b) {
+	  return a - trunc(a / b) * b;
+	}
 }
 
 vec4 main(std::Texture2d tex) {
@@ -31,5 +15,5 @@ vec4 main(std::Texture2d tex) {
 
 	vec4 fragColor = tex.sample(UV);
 
-	return vec4(fragColor.rgb * HSVToRGB(1.0, 1.0, 1.0), 1.0);
+	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * 0.4, 1.0), 1.0, 1.0)), fragColor.a);
 }
