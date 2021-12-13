@@ -17,7 +17,7 @@ import {
     function* MyRoutine(): IterableIterator<Wait> {
         featherParticleSystem.birthrate = Reactive.val(100.0);
 
-        yield new WaitForMilliseconds(4000);
+        yield new WaitForMilliseconds(4700);
 
         featherParticleSystem.birthrate = Reactive.val(0.0);
     }
