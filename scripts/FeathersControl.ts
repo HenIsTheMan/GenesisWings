@@ -11,10 +11,13 @@ import {
 } from './Coroutine'
 
 (async function(): Promise<void> {
+    const faceMesh: FaceMesh = await Scene.root.findFirst('FaceMesh') as FaceMesh;
     const featherParticleSystem: ParticleSystem = await Scene.root.findFirst('FeatherParticleSystem') as ParticleSystem;
     const rect: SceneObjectBase = await Scene.root.findFirst('Rect') as SceneObjectBase;
-    const dualWingsMtl: MaterialBase = await Materials.findFirst('DualWingsMtl') as MaterialBase;
-    const featherMtl: MaterialBase = await Materials.findFirst('FeatherMtl') as MaterialBase;
+    const dualWingsRegularMtl: MaterialBase = await Materials.findFirst('DualWingsRegularMtl') as MaterialBase;
+    const featherRegularMtl: MaterialBase = await Materials.findFirst('FeatherRegularMtl') as MaterialBase;
+    const dualWingsRGBMtl: MaterialBase = await Materials.findFirst('DualWingsRGBMtl') as MaterialBase;
+    const featherRGBMtl: MaterialBase = await Materials.findFirst('FeatherRGBMtl') as MaterialBase;
 
     featherParticleSystem.birthrate = Reactive.val(0.0);
 
@@ -25,8 +28,20 @@ import {
     }): void {
         switch(event.newValue) {
             case 0:
+                faceMesh.material = dualWingsRegularMtl;
+                featherParticleSystem.material = featherRegularMtl;
                 break;
             case 1:
+                faceMesh.material = dualWingsRegularMtl;
+                featherParticleSystem.material = featherRGBMtl;
+                break;
+            case 2:
+                faceMesh.material = dualWingsRGBMtl;
+                featherParticleSystem.material = featherRegularMtl;
+                break;
+            case 3:
+                faceMesh.material = dualWingsRGBMtl;
+                featherParticleSystem.material = featherRGBMtl;
                 break;
         }
     });
