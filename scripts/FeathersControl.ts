@@ -2,7 +2,7 @@ import TouchGestures from 'TouchGestures';
 import Scene from 'Scene';
 import Reactive from 'Reactive';
 import Patches from 'Patches';
-import Diagnostics from 'Diagnostics';
+import Materials from 'Materials';
 
 import {
     Wait,
@@ -13,6 +13,8 @@ import {
 (async function(): Promise<void> {
     const featherParticleSystem: ParticleSystem = await Scene.root.findFirst('FeatherParticleSystem') as ParticleSystem;
     const rect: SceneObjectBase = await Scene.root.findFirst('Rect') as SceneObjectBase;
+    const dualWingsMtl: MaterialBase = await Materials.findFirst('DualWingsMtl') as MaterialBase;
+    const featherMtl: MaterialBase = await Materials.findFirst('FeatherMtl') as MaterialBase;
 
     featherParticleSystem.birthrate = Reactive.val(0.0);
 
@@ -23,10 +25,8 @@ import {
     }): void {
         switch(event.newValue) {
             case 0:
-                Diagnostics.log(event.newValue);
                 break;
             case 1:
-                Diagnostics.log(event.newValue);
                 break;
         }
     });
