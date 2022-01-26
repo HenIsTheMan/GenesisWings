@@ -50,16 +50,18 @@ import {
     });
 
     function* MyRoutine(): IterableIterator<Wait> {
+        Instruction.bind(false, 'touch_hold');
+
         featherParticleSystem.birthrate = Reactive.val(100.0);
 
         yield new WaitForMilliseconds(4700);
+
+        Instruction.bind(true, 'touch_hold');
 
         featherParticleSystem.birthrate = Reactive.val(0.0);
     }
 
     const longPressSub: Subscription = TouchGestures.onLongPress(rect).subscribe((event: LongPressGesture): void => {
-        Instruction.bind(false, 'touch_hold');
-
         if(featherParticleSystem.birthrate.pinLastValue() == 0.0) {
             StartCoroutine(MyRoutine);
         }
