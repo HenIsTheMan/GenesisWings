@@ -3,6 +3,7 @@ import Scene from 'Scene';
 import Reactive from 'Reactive';
 import Patches from 'Patches';
 import Materials from 'Materials';
+import Instruction from 'Instruction';
 
 import {
     Wait,
@@ -18,6 +19,8 @@ import {
     const featherRegularMtl: MaterialBase = await Materials.findFirst('FeatherRegularMtl') as MaterialBase;
     const dualWingsRGBMtl: MaterialBase = await Materials.findFirst('DualWingsRGBMtl') as MaterialBase;
     const featherRGBMtl: MaterialBase = await Materials.findFirst('FeatherRGBMtl') as MaterialBase;
+
+    Instruction.bind(true, 'touch_hold');
 
     featherParticleSystem.birthrate = Reactive.val(0.0);
 
@@ -54,7 +57,9 @@ import {
         featherParticleSystem.birthrate = Reactive.val(0.0);
     }
 
-    const touchSub: Subscription = TouchGestures.onTap(rect).subscribe((event: TapGesture): void => {
+    const longPressSub: Subscription = TouchGestures.onLongPress(rect).subscribe((event: LongPressGesture): void => {
+        Instruction.bind(false, 'touch_hold');
+
         if(featherParticleSystem.birthrate.pinLastValue() == 0.0) {
             StartCoroutine(MyRoutine);
         }
