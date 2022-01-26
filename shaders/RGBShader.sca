@@ -16,5 +16,5 @@ vec4 main(std::Texture2d tex, float multiplier) {
 
 	vec4 fragColor = tex.sample(UV);
 
-	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * multiplier, 1.0), 1.0, 1.0)), fragColor.a);
+	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * multiplier + 0.4, 1.0), 1.0, 1.0)), fragColor.a);
 }
