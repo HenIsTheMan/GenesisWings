@@ -4,8 +4,6 @@ import Time from 'Time';
 
 (async function (): Promise<void> {
     const dualWingsRegularMtl: DefaultMaterial = await Materials.findFirst('DualWingsRegularMtl') as DefaultMaterial;
-    const dualWingsRGBMtl: DefaultMaterial = await Materials.findFirst('DualWingsRGBMtl') as DefaultMaterial;
 
     dualWingsRegularMtl.diffuseTextureTransform.offsetV = Reactive.sin(Time.ms.mul(0.007)).mul(0.017);
-    dualWingsRGBMtl.diffuseTextureTransform.offsetV = Reactive.cos(Time.ms.mul(0.007)).mul(0.017);
 })();
