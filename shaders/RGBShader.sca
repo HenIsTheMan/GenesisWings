@@ -11,10 +11,11 @@ namespace {
 }
 
 // @param[default=0.4, min=0.0, max=1.0] multiplier
-vec4 main(std::Texture2d tex, float multiplier) {
+// @param[default=0.4, min=0.0, max=1.0] offset
+vec4 main(std::Texture2d tex, float multiplier, float offset) {
 	vec2 UV = fragment(std::getVertexTexCoord());
 
 	vec4 fragColor = tex.sample(UV);
 
-	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * multiplier + 0.4, 1.0), 1.0, 1.0)), fragColor.a);
+	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * multiplier + offset, 1.0), 1.0, 1.0)), fragColor.a);
 }
