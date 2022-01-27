@@ -24,19 +24,12 @@ import {
 
     featherParticleSystem.birthrate = Reactive.val(0.0);
 
-    featherParticleSystem.position.magnitude().monitor().subscribe(async function (event: {
-        newVal: number
-        oldVal: number;
-    }): Promise<void> {
-        await Patches.inputs.setScalar('offset', event.newVal);
-    });
-
     const selectedOptionIndexSignal: ScalarSignal = await Patches.outputs.getScalar('selectedOptionIndex');
     const optionSelectedSub: Subscription = selectedOptionIndexSignal.monitor().subscribe(function (event: {
-        newVal: number;
-        oldVal: number;
+        newValue: number;
+        oldValue: number;
     }): void {
-        switch(event.newVal) {
+        switch(event.newValue) {
             case 0:
                 faceMesh.material = dualWingsRegularMtl;
                 featherParticleSystem.material = featherRegularMtl;
