@@ -1,0 +1,21 @@
+#import <color_spaces>
+
+namespace {
+	float trunc(float a) {
+		return a > 0.0 ? floor(a) : ceil(a);
+	}
+
+	float fmod(float a, float b) {
+	  return a - trunc(a / b) * b;
+	}
+}
+
+// @param[default=0.4, min=0.0, max=1.0] multiplier
+// @param[default=0.4, min=0.0, max=1.0] offset
+vec4 main(std::Texture2d tex, float multiplier, float offset) {
+	vec2 UV = fragment(std::getVertexTexCoord());
+
+	vec4 fragColor = tex.sample(UV);
+
+	return vec4(fragColor.rgb * std::hsvToRgb(vec3(fmod(std::getTime() * multiplier + offset, 1.0), 1.0, 1.0)), fragColor.a);
+}
